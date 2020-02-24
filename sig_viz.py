@@ -62,7 +62,7 @@ def ADC(numpy_array):
         #print(numpy_array[i])
         numpy_array[i] = bin(numpy_array[i]).replace('0b', '')
     return numpy_array
-
+    
 
 x_axis = []
 y_axis = []
@@ -97,19 +97,42 @@ def unipolar(b):
     #plt.show()
     return x,y
 
-def polar(b):
+def NRZ_L(b):
     l = []
     l.append(int(b[0]))
     for i in range(0,len(b)):
         if(b[i]=='0'):
-            l.append((-1))
+            l.append((1))
         else:
-            l.append(1)
+            l.append(-1)
         x = np.arange(0, len(l))
         y = np.array(l)
     #step(x, y)
     #plt.show()
     return x,y
+
+def NRZ_I(b):
+    l = []
+    counter=0
+    l.append(int(b[1]))
+    for i in range(0,len(b)):
+        if(b[i]=='0'):
+            if (counter % 2) == 0:
+               l.append((1))
+            else:
+               l.append((-1))
+    
+        else:
+            counter += 1
+            if (counter % 2) == 0:
+               l.append((1))
+            else:
+               l.append((-1)) 
+        x = np.arange(0, len(l))
+        y = np.array(l)
+    #step(x, y)
+    #plt.show()
+    return x,y 
 
 def RZ(b):
     l = []
@@ -126,9 +149,74 @@ def RZ(b):
     #step(x, y)
     #plt.show()
     return x,y
+
+
+def bipolar(b):
+    l = []
+    counter=0
+    l.append(int(b[0]))
+    for i in range(0,len(b)):
+        if(b[i]=='0'):
+            l.append((0))
+    
+        else:
+            counter += 1
+            if (counter % 2) == 0:
+               l.append((-1))
+            else:
+               l.append((1)) 
+        x = np.arange(0, len(l))
+        y = np.array(l)
+    #step(x, y)
+    #plt.show()
+    return x,y 
+
+def manchester(b):
+    l = []
+    l.append(int(b[0]))
+    for i in range(0,len(b)):
+        if(b[i]=='0'):
+            l.append((1))
+            l.append((-1))
+        else:
+            l.append(-1)
+            l.append((1))
+        x = np.arange(0, len(l))
+        y = np.array(l)
+    #step(x, y)
+    #plt.show()
+    return x,y       
+
+def diffrential_manchester(b):
+    l = []
+    counter=0    
+    l.append(int(b[0]))
+    for i in range(0,len(b)):
+        if(b[i]=='0'):    
+            if (counter % 2) == 0:
+                l.append((-1))
+                l.append((1))
+            else:
+               l.append((1))
+               l.append((-1))
+    
+        else:
+            counter += 1
+            if (counter % 2) == 0:
+               l.append((-1))
+               l.append((1))
+            else:
+               l.append((1))
+               l.append((-1)) 
+        x = np.arange(0, len(l))
+        y = np.array(l)
+    #step(x, y)
+    #plt.show()
+    return x,y 
+
 x2,y2 = unipolar(yl)
-x3,y3 = polar(yl)
-x4,y4 = RZ(yl)
+x3,y3 = NRZ_I(yl)
+x4,y4 = diffrential_manchester(yl)
 x4 = list(x4)
 print(len(x4))
 y4 = list(y4[1900:])
