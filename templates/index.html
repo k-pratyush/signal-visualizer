@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 
 {% block title %}
-Signal Visualizer
+Signal Visualiser
 {% endblock %}
 
-
 {% block body %}
-<h1>Signal</h1>
+<!-- <h1>Signal</h1> -->
+<script src="{{ url_for('static', filename='chartConfig.js') }}"></script>
+<script src="{{ url_for('static', filename='index.js') }}" type="text/javascript"></script>
 {% endblock %}
