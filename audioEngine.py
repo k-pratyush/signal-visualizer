@@ -2,6 +2,8 @@ import pyaudio
 import numpy
 import struct
 
+CHUNK=2048
+
 def generateAudioChunks(**kwargs):
     '''
     params:
@@ -12,12 +14,12 @@ def generateAudioChunks(**kwargs):
 
     stream = audio.open(format=pyaudio.paInt16, channels=1,
                         rate=kwargs["RATE"], input=True,
-                        frames_per_buffer=512)
+                        frames_per_buffer=CHUNK)
 
-    for i in range(0, int(kwargs["RATE"] / 512 * kwargs["TIME"])):
-        data = stream.read(512)
+    for i in range(0, int(kwargs["RATE"] / CHUNK * kwargs["TIME"])):
+        data = stream.read(CHUNK, exception_on_overflow=False)
         data_int = numpy.array(struct.unpack(
-            str(2*512) + 'B', data))[::2]
+            str(2*CHUNK) + 'B', data))[::2]
         yield data_int
 
     stream.stop_stream()
